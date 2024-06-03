@@ -1,0 +1,27 @@
+﻿@model Web_Pro.Entities.Huyen
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <form asp-controller="Huyen" asp-action="Edited" method="post">
+                    <input type="hidden" value="@Model.MaH" asp-for="@Model.MaH" />
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tên Huyen</label>
+                        <input type="text" class="form-control" asp-for="@Model.Ten" value="@Model.Ten" id="exampleInputPassword1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Cấp</label>
+                        <input type="text" class="form-control" asp-for="@Model.Cap" value="@Model.Cap" id="exampleInputPassword1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tỉnh</label>
+                        <input type="text" class="form-control" asp-for="@Model.MaT" value="@Model.MaT" id="exampleInputPassword1">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

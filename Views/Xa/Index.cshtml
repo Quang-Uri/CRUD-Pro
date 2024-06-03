@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Web_Pro.Entities.Xa>
+@{
+    ViewData["Title"] = "Index";
+    var i = 0;
+    var Huyen = ViewData["Huyen"] as IEnumerable<Web_Pro.Entities.Huyen>;
+}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1">
+                    Xã Tables -
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
+            </div><!-- end card header -->
+
+            <div class="card-body">
+                <div class="live-preview">
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle table-nowrap mb-0">
+                            <thead class="thead-light text-center">
+                                <tr>
+                                    <th scope="col">Mã Xã</th>
+                                    <th scope="col">Tên Xã</th>
+                                    <th scope="col">Cấp</th>
+                                    <th scope="col">Mã Huyện</th>
+                                    <th scope="col">Tên Huyện</th>
+                                    <th scope="col">Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="fw-medium text-center">@item.MaX</td>
+                                        <td class="text-center">@item.Ten</td>
+                                        <td class="text-center">@item.Cap</td>
+                                        <td class="text-center">@item.MaH</td>
+                                        <td class="text-center">@item.Ten</td>
+                                        <td class="text-center">
+                                            <a class="btn btn-primary btn-sm" asp-controller="Xa" asp-action="Edit" asp-route-id="@item.MaX">Edit</a>
+                                            <form asp-controller="Xa" asp-action="Delete" method="post" style="display: inline;">
+                                                <input type="hidden" name="id" value="@item.MaX" />
+                                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+    </div>
+</div>
+
+<style>
+    .table-bordered {
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+    }
+
+    .table thead th {
+        vertical-align: middle;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+    }
+
+    .btn {
+        border-radius: 0.25rem;
+    }
+</style>
+
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create Xã</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Xa" asp-action="Create" method="post">
+                    <div class="mb-3">
+                        <label for="TenHuyen" class="form-label">Huyện</label>
+                        <select id="Huyen" class="form-control" name="Ten">
+                            @foreach (var data in Huyen)
+                            {
+                                <option value="@data.MaH">@data.Ten</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="TenXa" class="form-label">Tên Xã</label>
+                        <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Cap" class="form-label">Cấp</label>
+                        <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Xong</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

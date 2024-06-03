@@ -1,0 +1,150 @@
+﻿@model Tuple<IEnumerable<Web_Pro.Entities.Tinh>, IEnumerable<Web_Pro.Entities.Huyen>, IEnumerable<Web_Pro.Entities.Xa>>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Index</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Danh sách Tỉnh, Huyện và Xã</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Tỉnh
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
+                </h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã Tỉnh</th>
+                            <th>Tên Tỉnh</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tinh-table">
+                        <!-- Tỉnh sẽ được hiển thị ở đây -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Huyện
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
+                </h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã Huyện</th>
+                            <th>Tên Huyện</th>
+                        </tr>
+                    </thead>
+                    <tbody id="huyen-table">
+                        <!-- Huyện sẽ được hiển thị ở đây -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Xã
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
+                </h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã Xã</th>
+                            <th>Tên Xã</th>
+                        </tr>
+                    </thead>
+                    <tbody id="xa-table">
+                        <!-- Xã sẽ được hiển thị ở đây -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Create  Tinh -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Create Tỉnh</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="Tinh" asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label for="MaTinh" class="form-label">Mã Tỉnh</label>
+                            <input type="text" class="form-control" name="MaT" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="TenTinh" class="form-label">Tên Tỉnh</label>
+                            <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Cap" class="form-label">Cấp</label>
+                            <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            loadTinhs();
+
+            function loadTinhs() {
+                $.get('/THX/GetTinhs', function (data) {
+                    var tinhHtml = '';
+                    data.forEach(function (tinh) {
+                        tinhHtml += '<tr><td>' + tinh.maT + '</td><td><a href="#" class="tinh-link" data-id="' + tinh.maT + '">' + tinh.ten + '</a></td></tr>';
+                    });
+                    $('#tinh-table').html(tinhHtml);
+                });
+            }
+
+            $(document).on('click', '.tinh-link', function (e) {
+                e.preventDefault();
+                var maT = $(this).data('id');
+                loadHuyens(maT);
+                $('#xa-table').html(''); // Clear Xa table when a new Tinh is clicked
+            });
+
+            function loadHuyens(maT) {
+                $.get('/THX/GetHuyens', { maT: maT }, function (data) {
+                    var huyenHtml = '';
+                    data.forEach(function (huyen) {
+                        huyenHtml += '<tr><td>' + huyen.maH + '</td><td><a href="#" class="huyen-link" data-id="' + huyen.maH + '">' + huyen.ten + '</a></td></tr>';
+                    });
+                    $('#huyen-table').html(huyenHtml);
+                });
+            }
+
+            $(document).on('click', '.huyen-link', function (e) {
+                e.preventDefault();
+                var maH = $(this).data('id');
+                loadXas(maH);
+            });
+
+            function loadXas(maH) {
+                $.get('/THX/GetXas', { maH: maH }, function (data) {
+                    var xaHtml = '';
+                    data.forEach(function (xa) {
+                        xaHtml += '<tr><td>' + xa.maX + '</td><td>' + xa.ten + '</td></tr>';
+                    });
+                    $('#xa-table').html(xaHtml);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Web.Net\\Web_Pro\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|d:\\web.net\\web_pro\\controllers\\huyencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|solutionrelative:controllers\\huyencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|d:\\web.net\\web_pro\\views\\huyen\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|solutionrelative:views\\huyen\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|d:\\web.net\\web_pro\\views\\tinh\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|solutionrelative:views\\tinh\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 524,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Web.Net\\Web_Pro\\Views\\Tinh\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Tinh\\Index.cshtml",
+              "ToolTip": "D:\\Web.Net\\Web_Pro\\Views\\Tinh\\Index.cshtml",
+              "RelativeToolTip": "Views\\Tinh\\Index.cshtml",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAiwFEAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-03T01:31:46.347Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HuyenController.cs",
+              "DocumentMoniker": "D:\\Web.Net\\Web_Pro\\Controllers\\HuyenController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HuyenController.cs",
+              "ToolTip": "D:\\Web.Net\\Web_Pro\\Controllers\\HuyenController.cs",
+              "RelativeToolTip": "Controllers\\HuyenController.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-03T01:09:56.597Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Web.Net\\Web_Pro\\Views\\Huyen\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Huyen\\Index.cshtml",
+              "ToolTip": "D:\\Web.Net\\Web_Pro\\Views\\Huyen\\Index.cshtml",
+              "RelativeToolTip": "Views\\Huyen\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-03T01:09:50.765Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
