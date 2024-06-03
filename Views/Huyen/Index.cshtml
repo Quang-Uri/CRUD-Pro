@@ -9,8 +9,8 @@
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">
-                    Huyện Tables - 
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
+                    Bảng Huyện -
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Tạo Mới</button>
             </div><!-- end card header -->
 
             <div class="card-body">
@@ -30,18 +30,18 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
+                                    var tenTinh = Tinh.FirstOrDefault(t => t.MaT == item.MaT)?.Ten ?? "Không xác định";
                                     <tr>
                                         <td class="fw-medium text-center">@item.MaH</td>
                                         <td class="text-center">@item.Ten</td>
                                         <td class="text-center">@item.Cap</td>
                                         <td class="text-center">@item.MaT</td>
+                                        <td class="text-center">@tenTinh</td>
                                         <td class="text-center">
-                                            @item.Ten</td>
-                                        <td class="text-center">
-                                            <a class="btn btn-primary btn-sm" asp-controller="Huyen" asp-action="Edit" asp-route-id="@item.MaH">Edit</a>
+                                            <a class="btn btn-primary btn-sm" asp-controller="Huyen" asp-action="Edit" asp-route-id="@item.MaH">Sửa</a>
                                             <form asp-controller="Huyen" asp-action="Delete" method="post" style="display: inline;">
                                                 <input type="hidden" name="id" value="@item.MaH" />
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -74,13 +74,13 @@
     }
 </style>
 
-<!-- Modal Create  Tinh -->
+<!-- Modal Create  Huyen -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Create Tỉnh</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="createModalLabel">Tạo Huyện Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             <div class="modal-body">
                 <form asp-controller="Huyen" asp-action="Create" method="post">
@@ -111,22 +111,17 @@
                     <button type="submit" class="btn btn-primary">Xong</button>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
-
 
 <script>
     document.getElementById('Tinh').addEventListener('change', function () {
         var selectedOption = this.options[this.selectedIndex];
         var maT = selectedOption.value;
         var tenTinh = selectedOption.getAttribute('data-ten');
-        
+
         document.getElementById('selectedMaT').value = maT;
         document.getElementById('selectedTenTinh').value = tenTinh;
     });
 </script>
-
-
-

@@ -19,6 +19,7 @@ namespace Web_CRUD.Controllers
         {
             var data = _context.Xas.ToList();
             ViewData["Huyen"] = _context.Huyens.ToList();
+            ViewData["Tinh"] = _context.Tinhs.ToList();
             return View(data);
         }
 
@@ -35,6 +36,7 @@ namespace Web_CRUD.Controllers
                 Xa newItem = new Xa()
                 {
                     MaH = model.MaH,
+                    MaX = model.MaX,
                     Ten = model.Ten,
                     Cap = model.Cap
                 };

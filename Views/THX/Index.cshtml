@@ -1,7 +1,9 @@
 ﻿@model Tuple<IEnumerable<Web_Pro.Entities.Tinh>, IEnumerable<Web_Pro.Entities.Huyen>, IEnumerable<Web_Pro.Entities.Xa>>
 
 @{
-    ViewData["Title"] = "Index";
+    // ViewData["Title"] = "Index";
+    // var i = 0;
+    // var Tinh = ViewData["Tinh"] as IEnumerable<Web_Pro.Entities.Tinh>;
 }
 
 <!DOCTYPE html>
@@ -96,8 +98,49 @@
             </div>
         </div>
     </div>
-    
+    @* <!-- Modal Create  Huyen -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Tạo Huyện Mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-controller="Huyen" asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label for="Tinh" class="form-label">Tỉnh</label>
+                            <select id="Tinh" class="form-control" name="MaT">
+                                @foreach (var data in Tinh)
+                                {
+                                    <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="MaHuyen" class="form-label">Mã Huyện</label>
+                            <input type="text" class="form-control" name="MaH" id="exampleInputPassword1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="TenHuyen" class="form-label">Tên Huyện</label>
+                            <input type="text" class="form-control" name="Ten" id="TenHuyen">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Cap" class="form-label">Cấp</label>
+                            <input type="text" class="form-control" name="Cap" id="Cap">
+                        </div>
+                        <!-- Hidden inputs to store selected Tỉnh details -->
+                        <input type="hidden" id="selectedMaT" name="selectedMaT">
+                        <input type="hidden" id="selectedTenTinh" name="selectedTenTinh">
+                        <button type="submit" class="btn btn-primary">Xong</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> *@
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <script>
         $(document).ready(function () {
             loadTinhs();

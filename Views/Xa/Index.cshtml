@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
     var i = 0;
     var Huyen = ViewData["Huyen"] as IEnumerable<Web_Pro.Entities.Huyen>;
+    var Tinh = ViewData["Tinh"] as IEnumerable<Web_Pro.Entities.Tinh>;
 }
 <div class="row">
     <div class="col-xl-12">
@@ -30,12 +31,13 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
+                                    var tenHuyen = Huyen.FirstOrDefault(t => t.MaH == item.MaH)?.Ten ?? "Không xác định";
                                     <tr>
                                         <td class="fw-medium text-center">@item.MaX</td>
                                         <td class="text-center">@item.Ten</td>
                                         <td class="text-center">@item.Cap</td>
                                         <td class="text-center">@item.MaH</td>
-                                        <td class="text-center">@item.Ten</td>
+                                        <td class="text-center">@tenHuyen</td>
                                         <td class="text-center">
                                             <a class="btn btn-primary btn-sm" asp-controller="Xa" asp-action="Edit" asp-route-id="@item.MaX">Edit</a>
                                             <form asp-controller="Xa" asp-action="Delete" method="post" style="display: inline;">
@@ -83,13 +85,26 @@
             <div class="modal-body">
                 <form asp-controller="Xa" asp-action="Create" method="post">
                     <div class="mb-3">
-                        <label for="TenHuyen" class="form-label">Huyện</label>
-                        <select id="Huyen" class="form-control" name="Ten">
-                            @foreach (var data in Huyen)
+                        <label for="Tinh" class="form-label">Tỉnh</label>
+                        <select id="Tinh" class="form-control" name="MaT">
+                            @foreach (var data in Tinh)
                             {
-                                <option value="@data.MaH">@data.Ten</option>
+                                <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
                             }
                         </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tenHuyen" class="form-label">Huyện</label>
+                        <select id="Huyen" class="form-control" name="MaH">
+                            @foreach (var data in Huyen)
+                            {
+                                <option value="@data.MaH" data-ten="@data.Ten">@data.Ten</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="MaHuyen" class="form-label">Mã Xã</label>
+                        <input type="text" class="form-control" name="MaX" id="exampleInputPassword1">
                     </div>
                     <div class="mb-3">
                         <label for="TenXa" class="form-label">Tên Xã</label>
@@ -106,4 +121,13 @@
     </div>
 </div>
 
+<script>
+    document.getElementById('Huyen').addEventListener('change', function () {
+        var selectedOption = this.options[this.selectedIndex];
+        var maH = selectedOption.value;
+        var tenHuyen = selectedOption.getAttribute('data-ten');
 
+        document.getElementById('selectedMaH').value = maH;
+        document.getElementById('selectedTenTinh').value = tenHuyen;
+    });
+</script>

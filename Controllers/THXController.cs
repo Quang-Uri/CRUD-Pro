@@ -19,7 +19,9 @@ namespace Web_Pro.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            //var data = _context.Huyens.ToList();
+            //ViewData["Tinh"] = _context.Tinhs.ToList();
+            return View(/*data*/);
         }
 
         [HttpGet]
