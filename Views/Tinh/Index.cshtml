@@ -31,10 +31,7 @@
                                         <td class="text-center">@item.Cap</td>
                                         <td class="text-center">
                                             <a class="btn btn-primary btn-sm" asp-controller="Tinh" asp-action="Edit" asp-route-id="@item.MaT">Edit</a>
-                                            <form asp-controller="Tinh" asp-action="Delete" method="post" style="display: inline;">
-                                                <input type="hidden" name="id" value="@item.MaT" />
-                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                            </form>
+                                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.MaT">Delete</button>
                                         </td>
                                     </tr>
                                 }
@@ -94,3 +91,37 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Delete Confirmation -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to permanently delete this item?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" asp-controller="Tinh" asp-action="Delete" method="post">
+                    <input type="hidden" name="id" id="deleteId" value="" />
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-danger">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var deleteModal = document.getElementById('deleteModal');
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget; // Nút kích hoạt modal
+        var id = button.getAttribute('data-id'); // Lấy giá trị ID từ thuộc tính data-id
+
+        // Cập nhật giá trị ID vào form xóa
+        var deleteInput = document.getElementById('deleteId');
+        deleteInput.value = id;
+    });
+</script>

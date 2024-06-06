@@ -1,9 +1,11 @@
-﻿@model Tuple<IEnumerable<Web_Pro.Entities.Tinh>, IEnumerable<Web_Pro.Entities.Huyen>, IEnumerable<Web_Pro.Entities.Xa>>
-
+﻿@* @model IEnumerable<Web_Pro.Entities.Tinh> *@
+@* @model IEnumerable<Web_Pro.Entities.Huyen> *@
+@* @model IEnumerable<Web_Pro.Entities.Xa> *@
 @{
-    // ViewData["Title"] = "Index";
-    // var i = 0;
-    // var Tinh = ViewData["Tinh"] as IEnumerable<Web_Pro.Entities.Tinh>;
+    ViewData["Title"] = "Index";
+    var i = 0;
+    var Huyen = ViewData["Huyen"] as IEnumerable<Web_Pro.Entities.Huyen>;
+    var Tinh = ViewData["Tinh"] as IEnumerable<Web_Pro.Entities.Tinh>;
 }
 
 <!DOCTYPE html>
@@ -15,179 +17,250 @@
 </head>
 <body>
     <div class="container">
-        <h1>Danh sách Tỉnh, Huyện và Xã</h1>
-
-        <div class="row">
-            <div class="col-md-4">
-                <h2>Tỉnh
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
-                </h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Mã Tỉnh</th>
-                            <th>Tên Tỉnh</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tinh-table">
-                        <!-- Tỉnh sẽ được hiển thị ở đây -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Huyện
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
-                </h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Mã Huyện</th>
-                            <th>Tên Huyện</th>
-                        </tr>
-                    </thead>
-                    <tbody id="huyen-table">
-                        <!-- Huyện sẽ được hiển thị ở đây -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-md-4">
-                <h2>Xã
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
-                </h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Mã Xã</th>
-                            <th>Tên Xã</th>
-                        </tr>
-                    </thead>
-                    <tbody id="xa-table">
-                        <!-- Xã sẽ được hiển thị ở đây -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Create  Tinh -->
-    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createModalLabel">Create Tỉnh</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                Tỉnh/ Tp
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalTinh">Create</button>
+                            </h2>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Tên Tỉnh</th>
+                                            <th scope="col">Hành Động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tinh-table">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td class="text-center">@item.Ten</td>
+                                                <td class="text-center">
+                                                    <a class="btn btn-primary btn-sm" asp-controller="Tinh" asp-action="Edit" asp-route-id="@item.MaT">Edit</a>
+                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.MaT">Delete</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form asp-controller="Tinh" asp-action="Create" method="post">
-                        <div class="mb-3">
-                            <label for="MaTinh" class="form-label">Mã Tỉnh</label>
-                            <input type="text" class="form-control" name="MaT" id="exampleInputPassword1">
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                Quận/ Huyện
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalHuyen">Create</button>
+                            </h2>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Tên Huyện</th>
+                                        <th scope="col">Hành Động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="huyen-table">
+                                    @foreach (var item in Model)
+                                    {
+
+                                        <tr>
+
+                                            <td class="text-center">@item.Ten</td>
+                                            <td class="text-center">
+                                                <a class="btn btn-primary btn-sm" asp-controller="Huyen" asp-action="Edit" asp-route-id="@item.MaH">Sửa</a>
+                                                <form asp-controller="Huyen" asp-action="Delete" method="post" style="display: inline;">
+                                                    <input type="hidden" name="id" value="@item.MaH" />
+                                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="mb-3">
-                            <label for="TenTinh" class="form-label">Tên Tỉnh</label>
-                            <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Cap" class="form-label">Cấp</label>
-                            <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    @* <!-- Modal Create  Huyen -->
-    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createModalLabel">Tạo Huyện Mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body">
-                    <form asp-controller="Huyen" asp-action="Create" method="post">
-                        <div class="mb-3">
-                            <label for="Tinh" class="form-label">Tỉnh</label>
-                            <select id="Tinh" class="form-control" name="MaT">
-                                @foreach (var data in Tinh)
-                                {
-                                    <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
-                                }
-                            </select>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                Xã/ Phường
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalXa">Create</button>
+                            </h2>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Tên Xã</th>
+                                        <th scope="col">Hành Động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="xa-table">
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-center">@item.Ten</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm" onclick="openEditModalXa('@item.MaX')">Edit</button>
+                                                <form asp-controller="Xa" asp-action="Delete" method="post" style="display: inline;">
+                                                    <input type="hidden" name="id" value="@item.MaX" />
+                                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="mb-3">
-                            <label for="MaHuyen" class="form-label">Mã Huyện</label>
-                            <input type="text" class="form-control" name="MaH" id="exampleInputPassword1">
-                        </div>
-                        <div class="mb-3">
-                            <label for="TenHuyen" class="form-label">Tên Huyện</label>
-                            <input type="text" class="form-control" name="Ten" id="TenHuyen">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Cap" class="form-label">Cấp</label>
-                            <input type="text" class="form-control" name="Cap" id="Cap">
-                        </div>
-                        <!-- Hidden inputs to store selected Tỉnh details -->
-                        <input type="hidden" id="selectedMaT" name="selectedMaT">
-                        <input type="hidden" id="selectedTenTinh" name="selectedTenTinh">
-                        <button type="submit" class="btn btn-primary">Xong</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div> *@
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <!-- Modal Create  Tinh -->
+        <div class="modal fade" id="createModalTinh" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel">Create Tỉnh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="Tinh" asp-action="Create" method="post">
+                            <div class="mb-3">
+                                <label for="MaTinh" class="form-label">Mã Tỉnh</label>
+                                <input type="text" class="form-control" name="MaT" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="TenTinh" class="form-label">Tên Tỉnh</label>
+                                <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="Cap" class="form-label">Cấp</label>
+                                <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <script>
-        $(document).ready(function () {
-            loadTinhs();
+        <!-- Modal Create  Huyen -->
+        <div class="modal fade" id="createModalHuyen" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel">Tạo Huyện Mới</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="Huyen" asp-action="Create" method="post">
+                            <div class="mb-3">
+                                <label for="Tinh" class="form-label">Tỉnh</label>
+                                <select id="Tinh" class="form-control" name="MaT">
+                                    @foreach (var data in Tinh)
+                                    {
+                                        <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="MaHuyen" class="form-label">Mã Huyện</label>
+                                <input type="text" class="form-control" name="MaH" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="TenHuyen" class="form-label">Tên Huyện</label>
+                                <input type="text" class="form-control" name="Ten" id="TenHuyen">
+                            </div>
+                            <div class="mb-3">
+                                <label for="Cap" class="form-label">Cấp</label>
+                                <input type="text" class="form-control" name="Cap" id="Cap">
+                            </div>
+                            <!-- Hidden inputs to store selected Tỉnh details -->
+                            <input type="hidden" id="selectedMaT" name="selectedMaT">
+                            <input type="hidden" id="selectedTenTinh" name="selectedTenTinh">
+                            <button type="submit" class="btn btn-primary">Xong</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            function loadTinhs() {
-                $.get('/THX/GetTinhs', function (data) {
-                    var tinhHtml = '';
-                    data.forEach(function (tinh) {
-                        tinhHtml += '<tr><td>' + tinh.maT + '</td><td><a href="#" class="tinh-link" data-id="' + tinh.maT + '">' + tinh.ten + '</a></td></tr>';
-                    });
-                    $('#tinh-table').html(tinhHtml);
-                });
-            }
+        <!-- Modal Create  Xa -->
+        <div class="modal fade" id="createModalXa" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel">Create Xã</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="Xa" asp-action="Create" method="post">
+                            <div class="mb-3">
+                                <label for="Tinh" class="form-label">Tỉnh</label>
+                                <select id="Tinh" class="form-control" name="MaT">
+                                    @foreach (var data in Tinh)
+                                    {
+                                        <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tenHuyen" class="form-label">Huyện</label>
+                                <select id="Huyen" class="form-control" name="MaH">
+                                    @foreach (var data in Huyen)
+                                    {
+                                        <option value="@data.MaH" data-ten="@data.Ten">@data.Ten</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="MaHuyen" class="form-label">Mã Xã</label>
+                                <input type="text" class="form-control" name="MaX" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="TenXa" class="form-label">Tên Xã</label>
+                                <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
+                            </div>
+                            <div class="mb-3">
+                                <label for="Cap" class="form-label">Cấp</label>
+                                <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Xong</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            $(document).on('click', '.tinh-link', function (e) {
-                e.preventDefault();
-                var maT = $(this).data('id');
-                loadHuyens(maT);
-                $('#xa-table').html(''); // Clear Xa table when a new Tinh is clicked
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            document.getElementById('Tinh').addEventListener('change', function () {
+                var selectedOption = this.options[this.selectedIndex];
+                var maT = selectedOption.value;
+                var tenTinh = selectedOption.getAttribute('data-ten');
+
+                document.getElementById('selectedMaT').value = maT;
+                document.getElementById('selectedTenTinh').value = tenTinh;
             });
+        </script>
+        <script>
+            document.getElementById('Huyen').addEventListener('change', function () {
+                var selectedOption = this.options[this.selectedIndex];
+                var maH = selectedOption.value;
+                var tenHuyen = selectedOption.getAttribute('data-ten');
 
-            function loadHuyens(maT) {
-                $.get('/THX/GetHuyens', { maT: maT }, function (data) {
-                    var huyenHtml = '';
-                    data.forEach(function (huyen) {
-                        huyenHtml += '<tr><td>' + huyen.maH + '</td><td><a href="#" class="huyen-link" data-id="' + huyen.maH + '">' + huyen.ten + '</a></td></tr>';
-                    });
-                    $('#huyen-table').html(huyenHtml);
-                });
-            }
-
-            $(document).on('click', '.huyen-link', function (e) {
-                e.preventDefault();
-                var maH = $(this).data('id');
-                loadXas(maH);
+                document.getElementById('selectedMaH').value = maH;
+                document.getElementById('selectedTenTinh').value = tenHuyen;
             });
-
-            function loadXas(maH) {
-                $.get('/THX/GetXas', { maH: maH }, function (data) {
-                    var xaHtml = '';
-                    data.forEach(function (xa) {
-                        xaHtml += '<tr><td>' + xa.maX + '</td><td>' + xa.ten + '</td></tr>';
-                    });
-                    $('#xa-table').html(xaHtml);
-                });
-            }
-        });
-    </script>
+        </script>
 </body>
 </html>

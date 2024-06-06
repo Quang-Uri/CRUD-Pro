@@ -5,13 +5,14 @@
     var Huyen = ViewData["Huyen"] as IEnumerable<Web_Pro.Entities.Huyen>;
     var Tinh = ViewData["Tinh"] as IEnumerable<Web_Pro.Entities.Tinh>;
 }
+
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">
                     Xã Tables -
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModal">Create</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalXa">Create</button>
             </div><!-- end card header -->
 
             <div class="card-body">
@@ -39,7 +40,7 @@
                                         <td class="text-center">@item.MaH</td>
                                         <td class="text-center">@tenHuyen</td>
                                         <td class="text-center">
-                                            <a class="btn btn-primary btn-sm" asp-controller="Xa" asp-action="Edit" asp-route-id="@item.MaX">Edit</a>
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="openEditModalXa('@item.MaX', '@item.Ten', '@item.Cap', '@item.MaT', '@item.MaH')">Edit</button>
                                             <form asp-controller="Xa" asp-action="Delete" method="post" style="display: inline;">
                                                 <input type="hidden" name="id" value="@item.MaX" />
                                                 <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
@@ -75,7 +76,8 @@
     }
 </style>
 
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+<!-- Modal Create Xã -->
+<div class="modal fade" id="createModalXa" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -98,7 +100,7 @@
                         <select id="Huyen" class="form-control" name="MaH">
                             @foreach (var data in Huyen)
                             {
-                                <option value="@data.MaH" data-ten="@data.Ten">@data.Ten</option>
+                                <option value="@data.MaH" data-tinh="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
                             }
                         </select>
                     </div>
@@ -120,6 +122,110 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for Editing Xã -->
+<div class="modal fade" id="editModalXa" tabindex="-1" aria-labelledby="editModalXaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalXaLabel">Edit Xã</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Xa" asp-action="Edited" method="post">
+                    <input type="hidden" id="editMaX" name="MaX" />
+                    <div class="mb-3">
+                        <label for="TinhEdit" class="form-label">Tỉnh</label>
+                        <select id="TinhEdit" class="form-control" name="MaT">
+                            @foreach (var data in Tinh)
+                            {
+                                <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="HuyenEdit" class="form-label">Huyện</label>
+                        <select id="HuyenEdit" class="form-control" name="MaH">
+                            @foreach (var data in Huyen)
+                            {
+                                <option value="@data.MaH" data-tinh="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTenXa" class="form-label">Tên Xã</label>
+                        <input type="text" class="form-control" id="editTenXa" name="Ten">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCap" class="form-label">Cấp</label>
+                        <input type="text" class="form-control" id="editCap" name="Cap">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function openEditModalXa(maX, tenXa, cap, maT, maH) {
+        // Set the form values
+        $('#editMaX').val(maX);
+        $('#editTenXa').val(tenXa);
+        $('#editCap').val(cap);
+
+        // Set selected values for Tinh and Huyen selects
+        $('#TinhEdit').val(maT);
+        $('#HuyenEdit').val(maH);
+
+        // Show the modal
+        $('#editModalXa').modal('show');
+    }
+
+    $(document).ready(function () {
+        $('#TinhEdit').change(function () {
+            var selectedTinh = $(this).val();
+            $('#HuyenEdit option').each(function () {
+                var huyenTinh = $(this).data('tinh');
+                if (huyenTinh == selectedTinh) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            // Set the first visible option as selected if no current value or current value is hidden
+            if (!$('#HuyenEdit').val() || !$('#HuyenEdit option[value="' + $('#HuyenEdit').val() + '"]').is(':visible')) {
+                $('#HuyenEdit').val($('#HuyenEdit option:visible:first').val());
+            }
+        });
+
+        // Trigger change on page load to initialize the correct Huyen list
+        $('#TinhEdit').trigger('change');
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#Tinh').change(function () {
+            var selectedTinh = $(this).val();
+            $('#Huyen option').each(function () {
+                var huyenTinh = $(this).data('tinh');
+                if (huyenTinh == selectedTinh) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+            $('#Huyen').val($('#Huyen option:visible:first').val()); // Chọn huyện đầu tiên có thể thấy
+        });
+
+        $('#Tinh').trigger('change'); // Gọi sự kiện change khi trang được tải để khởi tạo đúng danh sách huyện
+    });
+</script>
 
 <script>
     document.getElementById('Huyen').addEventListener('change', function () {

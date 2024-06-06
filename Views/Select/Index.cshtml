@@ -1,0 +1,124 @@
+﻿@* @model IEnumerable<Web_Pro.Entities.Tinh> *@
+@* @model IEnumerable<Web_Pro.Entities.Huyen> *@
+@* @model IEnumerable<Web_Pro.Entities.Xa> *@
+@{
+    ViewData["Title"] = "Index";
+    var i = 0;
+    var Huyen = ViewData["Huyen"] as IEnumerable<Web_Pro.Entities.Huyen>;
+    var Tinh = ViewData["Tinh"] as IEnumerable<Web_Pro.Entities.Tinh>;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Index</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>
+                    Tỉnh
+                </h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã Tỉnh</th>
+                            <th>Tên Tỉnh</th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tinh-table">
+                        <!-- Tỉnh sẽ được hiển thị ở đây -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <h2>
+                    Huyện
+                </h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã Huyện</th>
+                            <th>Tên Huyện</th>
+                        </tr>
+                    </thead>
+                    <tbody id="huyen-table">
+                        <!-- Huyện sẽ được hiển thị ở đây -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4">
+                <h2>Xã/ Phường</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã Xã</th>
+                            <th>Tên Xã</th>
+                        </tr>
+                    </thead>
+                    <tbody id="xa-table">
+                        <!-- Xã sẽ được hiển thị ở đây -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            loadTinhs();
+
+            function loadTinhs() {
+                $.get('/Select/GetTinhs', function (data) {
+                    var tinhHtml = '';
+                    data.forEach(function (tinh) {
+                        tinhHtml += '<tr><td>' + tinh.maT + '</td><td><a href="#" class="tinh-link" data-id="' + tinh.maT + '">' + tinh.ten + '</a></td></tr>';
+                    });
+                    $('#tinh-table').html(tinhHtml);
+                });
+            }
+
+            $(document).on('click', '.tinh-link', function (e) {
+                e.preventDefault();
+                var maT = $(this).data('id');
+                loadHuyens(maT);
+                $('#xa-table').html(''); // Clear Xa table when a new Tinh is clicked
+            });
+
+            function loadHuyens(maT) {
+                $.get('/Select/GetHuyens', { maT: maT }, function (data) {
+                    var huyenHtml = '';
+                    data.forEach(function (huyen) {
+                        huyenHtml += '<tr><td>' + huyen.maH + '</td><td><a href="#" class="huyen-link" data-id="' + huyen.maH + '">' + huyen.ten + '</a></td></tr>';
+                    });
+                    $('#huyen-table').html(huyenHtml);
+                });
+            }
+
+            $(document).on('click', '.huyen-link', function (e) {
+                e.preventDefault();
+                var maH = $(this).data('id');
+                loadXas(maH);
+            });
+
+            function loadXas(maH) {
+                $.get('/Select/GetXas', { maH: maH }, function (data) {
+                    var xaHtml = '';
+                    data.forEach(function (xa) {
+                        xaHtml += '<tr><td>' + xa.maX + '</td><td>' + xa.ten + '</td></tr>';
+                    });
+                    $('#xa-table').html(xaHtml);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

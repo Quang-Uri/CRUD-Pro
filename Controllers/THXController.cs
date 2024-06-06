@@ -17,32 +17,29 @@ namespace Web_Pro.Controllers
             _context = context;
         }
 
+        //public IActionResult Index()
+        //{
+        //    var listOfTinhs = _context.Tinhs.ToList();
+        //    var listOfHuyens = _context.Huyens.ToList();
+
+        //    var model = new Tuple<IEnumerable<Web_Pro.Entities.Tinh>, IEnumerable<Web_Pro.Entities.Huyen>>(listOfTinhs, listOfHuyens);
+
+        //    return View(model);
+        //}
+
+        //public IActionResult Index()
+        //{
+        //    var data = _context.Huyens.ToList();
+        //    ViewData["Tinh"] = _context.Tinhs.ToList();
+        //    return View(data);
+        //}
+
         public IActionResult Index()
         {
-            //var data = _context.Huyens.ToList();
-            //ViewData["Tinh"] = _context.Tinhs.ToList();
-            return View(/*data*/);
-        }
-
-        [HttpGet]
-        public IActionResult GetTinhs()
-        {
-            var tinhs = _context.Tinhs.ToList();
-            return Ok(tinhs);
-        }
-
-        [HttpGet]
-        public IActionResult GetHuyens(int maT)
-        {
-            var huyens = _context.Huyens.Where(h => h.MaT == maT).ToList();
-            return Ok(huyens);
-        }
-
-        [HttpGet]
-        public IActionResult GetXas(int maH)
-        {
-            var xas = _context.Xas.Where(x => x.MaH == maH).ToList();
-            return Ok(xas);
+            var data = _context.Xas.ToList();
+            ViewData["Huyen"] = _context.Huyens.ToList();
+            ViewData["Tinh"] = _context.Tinhs.ToList();
+            return View(data);
         }
     }
 }
