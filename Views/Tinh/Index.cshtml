@@ -30,7 +30,7 @@
                                         <td class="text-center">@item.Ten</td>
                                         <td class="text-center">@item.Cap</td>
                                         <td class="text-center">
-                                            <a class="btn btn-primary btn-sm" asp-controller="Tinh" asp-action="Edit" asp-route-id="@item.MaT">Edit</a>
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="openEditModalTinh('@item.MaT', '@item.Ten', '@item.Cap')">Edit</button>
                                             <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.MaT">Delete</button>
                                         </td>
                                     </tr>
@@ -63,7 +63,7 @@
     }
 </style>
 
-<!-- Modal Create  Tinh -->
+<!-- Modal tạo mới Tỉnh -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -75,15 +75,15 @@
                 <form asp-controller="Tinh" asp-action="Create" method="post">
                     <div class="mb-3">
                         <label for="MaTinh" class="form-label">Mã Tỉnh</label>
-                        <input type="text" class="form-control" name="MaT" id="exampleInputPassword1">
+                        <input type="text" class="form-control" name="MaT" id="MaTinh">
                     </div>
                     <div class="mb-3">
                         <label for="TenTinh" class="form-label">Tên Tỉnh</label>
-                        <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
+                        <input type="text" class="form-control" name="Ten" id="TenTinh">
                     </div>
                     <div class="mb-3">
                         <label for="Cap" class="form-label">Cấp</label>
-                        <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
+                        <input type="text" class="form-control" name="Cap" id="Cap">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -92,7 +92,33 @@
     </div>
 </div>
 
-<!-- Modal Delete Confirmation -->
+<!-- Modal chỉnh sửa Tỉnh -->
+<div class="modal fade" id="editModalTinh" tabindex="-1" aria-labelledby="editModalTinhLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalTinhLabel">Edit Tỉnh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Tinh" asp-action="Edited" method="post">
+                    <input type="hidden" id="editMaT" name="MaT" />
+                    <div class="mb-3">
+                        <label for="editTenTinh" class="form-label">Tên Tỉnh</label>
+                        <input type="text" class="form-control" id="editTenTinh" name="Ten">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCap" class="form-label">Cấp</label>
+                        <input type="text" class="form-control" id="editCap" name="Cap">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xác nhận xóa -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -101,7 +127,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to permanently delete this item?
+                Bạn có chắc chắn muốn xóa vĩnh viễn mục này không?
             </div>
             <div class="modal-footer">
                 <form id="deleteForm" asp-controller="Tinh" asp-action="Delete" method="post">
@@ -115,12 +141,21 @@
 </div>
 
 <script>
+    // Hàm mở modal chỉnh sửa và đặt giá trị cho form
+    function openEditModalTinh(maT, tenTinh, cap) {
+        document.getElementById('editMaT').value = maT;
+        document.getElementById('editTenTinh').value = tenTinh;
+        document.getElementById('editCap').value = cap;
+
+        var editModal = new bootstrap.Modal(document.getElementById('editModalTinh'));
+        editModal.show();
+    }
+
+    // Hàm đặt ID của mục cần xóa vào modal xác nhận xóa
     var deleteModal = document.getElementById('deleteModal');
     deleteModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget; // Nút kích hoạt modal
-        var id = button.getAttribute('data-id'); // Lấy giá trị ID từ thuộc tính data-id
-
-        // Cập nhật giá trị ID vào form xóa
+        var button = event.relatedTarget;
+        var id = button.getAttribute('data-id');
         var deleteInput = document.getElementById('deleteId');
         deleteInput.value = id;
     });

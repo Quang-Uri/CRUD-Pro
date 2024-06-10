@@ -11,8 +11,8 @@
         <div class="card">
             <div class="card-header align-items-center d-flex">
                 <h4 class="card-title mb-0 flex-grow-1">
-                    Xã Tables -
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalXa">Create</button>
+                    Bảng Xã -
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalXa">Tạo Mới</button>
             </div><!-- end card header -->
 
             <div class="card-body">
@@ -76,13 +76,13 @@
     }
 </style>
 
-<!-- Modal Create Xã -->
+<!-- Modal Tạo Mới Xã -->
 <div class="modal fade" id="createModalXa" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Create Xã</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="createModalLabel">Tạo Xã Mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
             </div>
             <div class="modal-body">
                 <form asp-controller="Xa" asp-action="Create" method="post">
@@ -96,7 +96,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="tenHuyen" class="form-label">Huyện</label>
+                        <label for="Huyen" class="form-label">Huyện</label>
                         <select id="Huyen" class="form-control" name="MaH">
                             @foreach (var data in Huyen)
                             {
@@ -105,16 +105,16 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="MaHuyen" class="form-label">Mã Xã</label>
-                        <input type="text" class="form-control" name="MaX" id="exampleInputPassword1">
+                        <label for="MaXa" class="form-label">Mã Xã</label>
+                        <input type="text" class="form-control" name="MaX" id="MaXa">
                     </div>
                     <div class="mb-3">
                         <label for="TenXa" class="form-label">Tên Xã</label>
-                        <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
+                        <input type="text" class="form-control" name="Ten" id="TenXa">
                     </div>
                     <div class="mb-3">
                         <label for="Cap" class="form-label">Cấp</label>
-                        <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
+                        <input type="text" class="form-control" name="Cap" id="Cap">
                     </div>
                     <button type="submit" class="btn btn-primary">Xong</button>
                 </form>
@@ -123,7 +123,7 @@
     </div>
 </div>
 
-<!-- Modal for Editing Xã -->
+<!-- Modal Chỉnh Sửa Xã -->
 <div class="modal fade" id="editModalXa" tabindex="-1" aria-labelledby="editModalXaLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -167,20 +167,19 @@
     </div>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function openEditModalXa(maX, tenXa, cap, maT, maH) {
-        // Set the form values
+        // Đặt giá trị cho form
         $('#editMaX').val(maX);
         $('#editTenXa').val(tenXa);
         $('#editCap').val(cap);
 
-        // Set selected values for Tinh and Huyen selects
+        // Đặt giá trị đã chọn cho select Tinh và Huyen
         $('#TinhEdit').val(maT);
         $('#HuyenEdit').val(maH);
 
-        // Show the modal
+        // Hiển thị modal
         $('#editModalXa').modal('show');
     }
 
@@ -196,44 +195,20 @@
                 }
             });
 
-            // Set the first visible option as selected if no current value or current value is hidden
+            // Đặt giá trị đã chọn đầu tiên có thể thấy nếu không có giá trị hiện tại hoặc giá trị hiện tại bị ẩn
             if (!$('#HuyenEdit').val() || !$('#HuyenEdit option[value="' + $('#HuyenEdit').val() + '"]').is(':visible')) {
                 $('#HuyenEdit').val($('#HuyenEdit option:visible:first').val());
             }
         });
 
-        // Trigger change on page load to initialize the correct Huyen list
+        // Kích hoạt sự kiện change khi tải trang để khởi tạo danh sách huyện đúng
         $('#TinhEdit').trigger('change');
     });
 </script>
 
-
 <script>
     $(document).ready(function () {
-        $('#Tinh').change(function () {
-            var selectedTinh = $(this).val();
-            $('#Huyen option').each(function () {
-                var huyenTinh = $(this).data('tinh');
-                if (huyenTinh == selectedTinh) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-            $('#Huyen').val($('#Huyen option:visible:first').val()); // Chọn huyện đầu tiên có thể thấy
+        $('#Tinh').change(function ()
         });
-
-        $('#Tinh').trigger('change'); // Gọi sự kiện change khi trang được tải để khởi tạo đúng danh sách huyện
     });
-</script>
-
-<script>
-    document.getElementById('Huyen').addEventListener('change', function () {
-        var selectedOption = this.options[this.selectedIndex];
-        var maH = selectedOption.value;
-        var tenHuyen = selectedOption.getAttribute('data-ten');
-
-        document.getElementById('selectedMaH').value = maH;
-        document.getElementById('selectedTenTinh').value = tenHuyen;
-    });
-</script>
+</script>   

@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Web.Net\\Web_Pro\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|d:\\web.net\\web_pro\\controllers\\selectcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|solutionrelative:controllers\\selectcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|d:\\web.net\\web_pro\\views\\select\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{4214DC40-26C8-4CA3-A8B9-ADB26305BFB7}|Web_Pro.csproj|solutionrelative:views\\select\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 1,
@@ -18,34 +9,8 @@
       "DocumentGroups": [
         {
           "DockedHeight": 524,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SelectController.cs",
-              "DocumentMoniker": "D:\\Web.Net\\Web_Pro\\Controllers\\SelectController.cs",
-              "RelativeDocumentMoniker": "Controllers\\SelectController.cs",
-              "ToolTip": "D:\\Web.Net\\Web_Pro\\Controllers\\SelectController.cs",
-              "RelativeToolTip": "Controllers\\SelectController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-06T09:59:16.03Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Web.Net\\Web_Pro\\Views\\Select\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Select\\Index.cshtml",
-              "ToolTip": "D:\\Web.Net\\Web_Pro\\Views\\Select\\Index.cshtml",
-              "RelativeToolTip": "Views\\Select\\Index.cshtml",
-              "ViewState": "AQIAAF0AAAAAAAAAAAAAAHAAAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-06T09:56:36.017Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"

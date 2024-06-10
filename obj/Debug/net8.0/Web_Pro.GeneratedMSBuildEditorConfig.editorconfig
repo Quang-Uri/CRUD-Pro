@@ -26,10 +26,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Web.Net/Web_Pro/Views/Huyen/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSHV5ZW5cRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Web.Net/Web_Pro/Views/Huyen/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSHV5ZW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -50,16 +46,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVEhYXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Web.Net/Web_Pro/Views/Tinh/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFxFZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Web.Net/Web_Pro/Views/Tinh/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGluaFxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Web.Net/Web_Pro/Views/Xa/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWGFcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Web.Net/Web_Pro/Views/Xa/Index.cshtml]

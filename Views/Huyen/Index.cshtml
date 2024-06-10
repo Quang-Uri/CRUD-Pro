@@ -38,7 +38,7 @@
                                         <td class="text-center">@item.MaT</td>
                                         <td class="text-center">@tenTinh</td>
                                         <td class="text-center">
-                                            <a class="btn btn-primary btn-sm" asp-controller="Huyen" asp-action="Edit" asp-route-id="@item.MaH">Sửa</a>
+                                            <button type="button" class="btn btn-primary btn-sm" onclick="openEditModalHuyen('@item.MaH', '@item.Ten', '@item.Cap', '@item.MaT')">Edit</button>
                                             <form asp-controller="Huyen" asp-action="Delete" method="post" style="display: inline;">
                                                 <input type="hidden" name="id" value="@item.MaH" />
                                                 <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
@@ -74,7 +74,7 @@
     }
 </style>
 
-<!-- Modal Create  Huyen -->
+<!-- Modal Tạo Mới Huyện -->
 <div class="modal fade" id="createModalHuyen" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -95,7 +95,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="MaHuyen" class="form-label">Mã Huyện</label>
-                        <input type="text" class="form-control" name="MaH" id="exampleInputPassword1">
+                        <input type="text" class="form-control" name="MaH" id="MaHuyen">
                     </div>
                     <div class="mb-3">
                         <label for="TenHuyen" class="form-label">Tên Huyện</label>
@@ -105,9 +105,6 @@
                         <label for="Cap" class="form-label">Cấp</label>
                         <input type="text" class="form-control" name="Cap" id="Cap">
                     </div>
-                    <!-- Hidden inputs to store selected Tỉnh details -->
-                    <input type="hidden" id="selectedMaT" name="selectedMaT">
-                    <input type="hidden" id="selectedTenTinh" name="selectedTenTinh">
                     <button type="submit" class="btn btn-primary">Xong</button>
                 </form>
             </div>
@@ -115,12 +112,58 @@
     </div>
 </div>
 
+<!-- Modal Chỉnh Sửa Huyện -->
+<div class="modal fade" id="editModalHuyen" tabindex="-1" aria-labelledby="editModalHuyenLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalHuyenLabel">Edit Huyện</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Huyen" asp-action="Edited" method="post">
+                    <input type="hidden" id="editMaH" name="MaH" />
+                    <div class="mb-3">
+                        <label for="TinhEdit" class="form-label">Tỉnh</label>
+                        <select id="TinhEdit" class="form-control" name="MaT">
+                            @foreach (var data in Tinh)
+                            {
+                                <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTenXa" class="form-label">Tên Huyện</label>
+                        <input type="text" class="form-control" id="editTenXa" name="Ten">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCap" class="form-label">Cấp</label>
+                        <input type="text" class="form-control" id="editCap" name="Cap">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    // Hàm mở modal chỉnh sửa và đặt giá trị cho form
+    function openEditModalHuyen(maH, tenHuyen, cap, maT) {
+        $('#editMaH').val(maH);
+        $('#editTenXa').val(tenHuyen);
+        $('#editCap').val(cap);
+        $('#TinhEdit').val(maT);
+        $('#editModalHuyen').modal('show');
+    }
+</script>
+
+<script>
+    // Hàm đặt giá trị của tỉnh được chọn vào các input ẩn khi tạo mới huyện
     document.getElementById('Tinh').addEventListener('change', function () {
         var selectedOption = this.options[this.selectedIndex];
         var maT = selectedOption.value;
         var tenTinh = selectedOption.getAttribute('data-ten');
-
         document.getElementById('selectedMaT').value = maT;
         document.getElementById('selectedTenTinh').value = tenTinh;
     });

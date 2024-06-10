@@ -6,6 +6,7 @@
     var i = 0;
     var Huyen = ViewData["Huyen"] as IEnumerable<Web_Pro.Entities.Huyen>;
     var Tinh = ViewData["Tinh"] as IEnumerable<Web_Pro.Entities.Tinh>;
+    var Xa = ViewData["Xa"] as IEnumerable<Web_Pro.Entities.Xa>;
 }
 
 <!DOCTYPE html>
@@ -14,17 +15,21 @@
     <meta charset="utf-8" />
     <title>Index</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="container-fluid">
             <div class="row">
+                <!-- Tinh Section -->
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
                             <h2 class="card-title">
                                 Tỉnh/ Tp
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalTinh">Create</button>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalTinh">
+                                    <i class="fas fa-plus"></i>
+                                </button>
                             </h2>
                             <div class="table-responsive">
                                 <table class="table table-bordered">
@@ -35,13 +40,17 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tinh-table">
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Tinh)
                                         {
                                             <tr>
                                                 <td class="text-center">@item.Ten</td>
                                                 <td class="text-center">
-                                                    <a class="btn btn-primary btn-sm" asp-controller="Tinh" asp-action="Edit" asp-route-id="@item.MaT">Edit</a>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="@item.MaT">Delete</button>
+                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModalTinh" onclick="openEditModalTinh('@item.MaT', '@item.Ten', '@item.Cap')">
+                                                        <i class="fas fa-pencil-alt"></i> <!-- Nút chỉnh sửa -->
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalTinh" data-id="@item.MaT">
+                                                        <i class="fas fa-trash"></i> <!-- Nút xóa -->
+                                                    </button>
                                                 </td>
                                             </tr>
                                         }
@@ -52,12 +61,15 @@
                     </div>
                 </div>
 
+                <!-- Huyen Section -->
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
                             <h2 class="card-title">
                                 Quận/ Huyện
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalHuyen">Create</button>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalHuyen">
+                                    <i class="fas fa-plus"></i>
+                                </button>
                             </h2>
                             <table class="table table-bordered">
                                 <thead>
@@ -67,18 +79,17 @@
                                     </tr>
                                 </thead>
                                 <tbody id="huyen-table">
-                                    @foreach (var item in Model)
+                                    @foreach (var item in Huyen)
                                     {
-
                                         <tr>
-
                                             <td class="text-center">@item.Ten</td>
                                             <td class="text-center">
-                                                <a class="btn btn-primary btn-sm" asp-controller="Huyen" asp-action="Edit" asp-route-id="@item.MaH">Sửa</a>
-                                                <form asp-controller="Huyen" asp-action="Delete" method="post" style="display: inline;">
-                                                    <input type="hidden" name="id" value="@item.MaH" />
-                                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                                </form>
+                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModalHuyen" onclick="openEditModalHuyen('@item.MaH', '@item.Ten', '@item.Cap', '@item.MaT')">
+                                                    <i class="fas fa-pencil-alt"></i> <!-- Nút chỉnh sửa -->
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalHuyen" data-id="@item.MaH">
+                                                    <i class="fas fa-trash"></i> <!-- Nút xóa -->
+                                                </button>
                                             </td>
                                         </tr>
                                     }
@@ -88,12 +99,15 @@
                     </div>
                 </div>
 
+                <!-- Xa Section -->
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-body">
                             <h2 class="card-title">
                                 Xã/ Phường
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalXa">Create</button>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createModalXa">
+                                    <i class="fas fa-plus"></i>
+                                </button>
                             </h2>
                             <table class="table table-bordered">
                                 <thead>
@@ -103,16 +117,19 @@
                                     </tr>
                                 </thead>
                                 <tbody id="xa-table">
-                                    @foreach (var item in Model)
+                                    @foreach (var item in Xa)
                                     {
                                         <tr>
                                             <td class="text-center">@item.Ten</td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-primary btn-sm" onclick="openEditModalXa('@item.MaX')">Edit</button>
-                                                <form asp-controller="Xa" asp-action="Delete" method="post" style="display: inline;">
-                                                    <input type="hidden" name="id" value="@item.MaX" />
-                                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                                </form>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModalXa" onclick="openEditModalXa('@item.MaX', '@item.Ten', '@item.Cap', '@item.MaT', '@item.MaH')">
+                                                    <i class="fas fa-pencil-alt"></i> <!-- Nút chỉnh sửa -->
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModalXa" data-id="@item.MaX">
+                                                    <i class="fas fa-trash"></i> <!-- Nút xóa -->
+                                                </button>
+                                            </td>
                                             </td>
                                         </tr>
                                     }
@@ -121,10 +138,11 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
-        <!-- Modal Create  Tinh -->
+        <!-- Modal tạo mới Tỉnh -->
         <div class="modal fade" id="createModalTinh" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -136,15 +154,40 @@
                         <form asp-controller="Tinh" asp-action="Create" method="post">
                             <div class="mb-3">
                                 <label for="MaTinh" class="form-label">Mã Tỉnh</label>
-                                <input type="text" class="form-control" name="MaT" id="exampleInputPassword1">
+                                <input type="text" class="form-control" name="MaT" id="MaTinh">
                             </div>
                             <div class="mb-3">
                                 <label for="TenTinh" class="form-label">Tên Tỉnh</label>
-                                <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
+                                <input type="text" class="form-control" name="Ten" id="TenTinh">
                             </div>
                             <div class="mb-3">
                                 <label for="Cap" class="form-label">Cấp</label>
-                                <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
+                                <input type="text" class="form-control" name="Cap" id="Cap">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal chỉnh sửa Tỉnh -->
+        <div class="modal fade" id="editModalTinh" tabindex="-1" aria-labelledby="editModalTinhLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalTinhLabel">Edit Tỉnh</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="Tinh" asp-action="Edited" method="post">
+                            <input type="hidden" id="editMaT" name="MaT" />
+                            <div class="mb-3">
+                                <label for="editTenTinh" class="form-label">Tên Tỉnh</label>
+                                <input type="text" class="form-control" id="editTenTinh" name="Ten">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editCap" class="form-label">Cấp</label>
+                                <input type="text" class="form-control" id="editCap" name="Cap">
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
@@ -153,7 +196,7 @@
             </div>
         </div>
 
-        <!-- Modal Create  Huyen -->
+        <!-- Modal Tạo Mới Huyện -->
         <div class="modal fade" id="createModalHuyen" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -174,7 +217,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="MaHuyen" class="form-label">Mã Huyện</label>
-                                <input type="text" class="form-control" name="MaH" id="exampleInputPassword1">
+                                <input type="text" class="form-control" name="MaH" id="MaHuyen">
                             </div>
                             <div class="mb-3">
                                 <label for="TenHuyen" class="form-label">Tên Huyện</label>
@@ -184,10 +227,41 @@
                                 <label for="Cap" class="form-label">Cấp</label>
                                 <input type="text" class="form-control" name="Cap" id="Cap">
                             </div>
-                            <!-- Hidden inputs to store selected Tỉnh details -->
-                            <input type="hidden" id="selectedMaT" name="selectedMaT">
-                            <input type="hidden" id="selectedTenTinh" name="selectedTenTinh">
                             <button type="submit" class="btn btn-primary">Xong</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Chỉnh Sửa Huyện -->
+        <div class="modal fade" id="editModalHuyen" tabindex="-1" aria-labelledby="editModalHuyenLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalHuyenLabel">Edit Huyện</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="Huyen" asp-action="Edited" method="post">
+                            <input type="hidden" id="editMaH" name="MaH" />
+                            <div class="mb-3">
+                                <label for="TinhEdit" class="form-label">Tỉnh</label>
+                                <select id="TinhEdit" class="form-control" name="MaT">
+                                    @foreach (var data in Tinh)
+                                    {
+                                        <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editTenXa" class="form-label">Tên Huyện</label>
+                                <input type="text" class="form-control" id="editTenXa" name="Ten">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editCap" class="form-label">Cấp</label>
+                                <input type="text" class="form-control" id="editCap" name="Cap">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -205,8 +279,53 @@
                     <div class="modal-body">
                         <form asp-controller="Xa" asp-action="Create" method="post">
                             <div class="mb-3">
-                                <label for="Tinh" class="form-label">Tỉnh</label>
-                                <select id="Tinh" class="form-control" name="MaT">
+                                <label for="TinhXa" class="form-label">Tỉnh</label>
+                                <select id="TinhXa" class="form-control" name="MaT" onchange="populateHuyen()">
+                                    <option value="">Select Tỉnh</option>
+                                    @foreach (var data in Tinh)
+                                    {
+                                        <option value="@data.MaT">@data.Ten</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="HuyenXa" class="form-label">Huyện</label>
+                                <select id="HuyenXa" class="form-control" name="MaH">
+                                    <option value="">Select Huyện</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="MaXa" class="form-label">Mã Xã</label>
+                                <input type="text" class="form-control" name="MaX" id="MaXa">
+                            </div>
+                            <div class="mb-3">
+                                <label for="TenXa" class="form-label">Tên Xã</label>
+                                <input type="text" class="form-control" name="Ten" id="TenXa">
+                            </div>
+                            <div class="mb-3">
+                                <label for="CapXa" class="form-label">Cấp</label>
+                                <input type="text" class="form-control" name="Cap" id="CapXa">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Chỉnh Sửa Xã -->
+        <div class="modal fade" id="editModalXa" tabindex="-1" aria-labelledby="editModalXaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalXaLabel">Edit Xã</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-controller="Xa" asp-action="Edited" method="post">
+                            <input type="hidden" id="editMaX" name="MaX" />
+                            <div class="mb-3">
+                                <label for="TinhEdit" class="form-label">Tỉnh</label>
+                                <select id="TinhEdit" class="form-control" name="MaT">
                                     @foreach (var data in Tinh)
                                     {
                                         <option value="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
@@ -214,53 +333,258 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="tenHuyen" class="form-label">Huyện</label>
-                                <select id="Huyen" class="form-control" name="MaH">
+                                <label for="HuyenEdit" class="form-label">Huyện</label>
+                                <select id="HuyenEdit" class="form-control" name="MaH">
                                     @foreach (var data in Huyen)
                                     {
-                                        <option value="@data.MaH" data-ten="@data.Ten">@data.Ten</option>
+                                        <option value="@data.MaH" data-tinh="@data.MaT" data-ten="@data.Ten">@data.Ten</option>
                                     }
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="MaHuyen" class="form-label">Mã Xã</label>
-                                <input type="text" class="form-control" name="MaX" id="exampleInputPassword1">
+                                <label for="editTenXa" class="form-label">Tên Xã</label>
+                                <input type="text" class="form-control" id="editTenXa" name="Ten">
                             </div>
                             <div class="mb-3">
-                                <label for="TenXa" class="form-label">Tên Xã</label>
-                                <input type="text" class="form-control" name="Ten" id="exampleInputPassword1">
+                                <label for="editCap" class="form-label">Cấp</label>
+                                <input type="text" class="form-control" id="editCap" name="Cap">
                             </div>
-                            <div class="mb-3">
-                                <label for="Cap" class="form-label">Cấp</label>
-                                <input type="text" class="form-control" name="Cap" id="exampleInputPassword1">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Xong</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Modal xác nhận xóa Tinh -->
+        <div class="modal fade" id="deleteModalTinh" tabindex="-1" aria-labelledby="deleteModalTinhLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalTinhLabel">Delete Confirmation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc chắn muốn xóa vĩnh viễn Tỉnh cùng với Huyện và Xã trực thuộc không?
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteFormTinh" asp-controller="THX" asp-action="Delete" method="post">
+                            <input type="hidden" name="id" id="deleteIdTinh" value="" />
+                            <input type="hidden" name="type" id="deleteTypeTinh" value="Tinh" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal xác nhận xóa Huyen -->
+        <div class="modal fade" id="deleteModalHuyen" tabindex="-1" aria-labelledby="deleteModalHuyenLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalHuyenLabel">Delete Confirmation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc chắn muốn xóa vĩnh viễn Huyện cùng với Xã trực thuộc không?
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteFormHuyen" asp-controller="THX" asp-action="Delete" method="post">
+                            <input type="hidden" name="id" id="deleteIdHuyen" value="" />
+                            <input type="hidden" name="type" id="deleteTypeHuyen" value="Huyen" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal xác nhận xóa Xa -->
+        <div class="modal fade" id="deleteModalXa" tabindex="-1" aria-labelledby="deleteModalXaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalXaLabel">Delete Confirmation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc chắn muốn xóa vĩnh viễn Xã không?
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deleteFormXa" asp-controller="THX" asp-action="Delete" method="post">
+                            <input type="hidden" name="id" id="deleteIdXa" value="" />
+                            <input type="hidden" name="type" id="deleteTypeXa" value="Xa" />
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Script to handle dynamic select options -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script>
-            document.getElementById('Tinh').addEventListener('change', function () {
-                var selectedOption = this.options[this.selectedIndex];
-                var maT = selectedOption.value;
-                var tenTinh = selectedOption.getAttribute('data-ten');
+            function populateHuyen() {
+                var tinhId = $('#TinhXa').val();
+                var huyenOptions = '<option value="">Select Huyện</option>';
+            @* Generate options dynamically based on selected Tinh *@
+            @foreach (var huyen in Huyen)
+            {
+                <text>
+                                                                        if ('@huyen.MaT' === tinhId) {
+                        huyenOptions += '<option value="@huyen.MaH">@huyen.Ten</option>';
+                    }
+                </text>
+            }
+                    $('#HuyenXa').html(huyenOptions);
+            }
+        </script>
 
-                document.getElementById('selectedMaT').value = maT;
-                document.getElementById('selectedTenTinh').value = tenTinh;
+        <!-- Script xử lý chức năng động của select -->
+        <script>
+            $(document).ready(function () {
+                // Xử lý sự kiện khi thay đổi Tỉnh để tải danh sách Huyện tương ứng
+                $('#TinhHuyen').change(function () {
+                    var selectedTinh = $(this).val();
+                    $.ajax({
+                        url: '/YourController/GetHuyenByTinh',
+                        type: 'GET',
+                        data: { tinhId: selectedTinh },
+                        success: function (response) {
+                            var options = '<option value="">Select Huyện</option>';
+                            response.forEach(function (huyen) {
+                                options += '<option value="' + huyen.MaH + '">' + huyen.Ten + '</option>';
+                            });
+                            $('#HuyenXa').html(options);
+                        }
+                    });
+                });
+
+                // Xử lý sự kiện khi thay đổi Huyện để tải danh sách Xã tương ứng
+                $('#HuyenXa').change(function () {
+                    var selectedHuyen = $(this).val();
+                    $.ajax({
+                        url: '/YourController/GetXaByHuyen',
+                        type: 'GET',
+                        data: { huyenId: selectedHuyen },
+                        success: function (response) {
+                            var options = '<option value="">Select Xã</option>';
+                            response.forEach(function (xa) {
+                                options += '<option value="' + xa.MaX + '">' + xa.Ten + '</option>';
+                            });
+                            $('#XaXa').html(options);
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <!-- Script cho chức năng chỉnh sửa thông tin Tỉnh -->
+        <script>
+            function openEditModalTinh(maT, tenTinh, cap) {
+                document.getElementById('editMaT').value = maT;
+                document.getElementById('editTenTinh').value = tenTinh;
+                document.getElementById('editCap').value = cap;
+
+                var editModal = new bootstrap.Modal(document.getElementById('editModalTinh'));
+                editModal.show();
+            }
+        </script>
+
+        <!-- Script cho chức năng chỉnh sửa thông tin Huyện -->
+        <script>
+            function openEditModalHuyen(maH, tenHuyen, cap, maT) {
+                $('#editMaH').val(maH);
+                $('#editTenXa').val(tenHuyen);
+                $('#editCap').val(cap);
+                $('#TinhEdit').val(maT);
+                $('#editModalHuyen').modal('show');
+            }
+        </script>
+
+        <!-- Script cho chức năng chỉnh sửa thông tin Xã -->
+        <script>
+            function openEditModalXa(maX, tenXa, cap, maT, maH) {
+                // Đặt giá trị cho form
+                $('#editMaX').val(maX);
+                $('#editTenXa').val(tenXa);
+                $('#editCap').val(cap);
+
+                // Đặt giá trị đã chọn cho select Tinh và Huyen
+                $('#TinhEdit').val(maT);
+                $('#HuyenEdit').val(maH);
+
+                // Hiển thị modal
+                $('#editModalXa').modal('show');
+            }
+
+            // Xử lý sự kiện khi thay đổi Tỉnh để hiển thị danh sách Huyện tương ứng
+            $(document).ready(function () {
+                $('#TinhEdit').change(function () {
+                    var selectedTinh = $(this).val();
+                    $('#HuyenEdit option').each(function () {
+                        var huyenTinh = $(this).data('tinh');
+                        if (huyenTinh == selectedTinh) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    // Đặt giá trị đã chọn đầu tiên có thể thấy nếu không có giá trị hiện tại hoặc giá trị hiện tại bị ẩn
+                    if (!$('#HuyenEdit').val() || !$('#HuyenEdit option[value="' + $('#HuyenEdit').val() + '"]').is(':visible')) {
+                        $('#HuyenEdit').val($('#HuyenEdit option:visible:first').val());
+                    }
+                });
+
+                // Kích hoạt sự kiện change khi tải trang để khởi tạo danh sách huyện đúng
+                $('#TinhEdit').trigger('change');
+            });
+        </script>
+
+        <!-- Script cho chức năng xóa -->
+        <script>
+            // Hàm mở modal xác nhận xóa và đặt giá trị cho input xóa
+            var deleteModalTinh = document.getElementById('deleteModalTinh');
+            deleteModalTinh.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+                var deleteInput = document.getElementById('deleteIdTinh');
+                var deleteType = document.getElementById('deleteTypeTinh');
+                deleteInput.value = id;
+                deleteType.value = 'Tinh';
             });
         </script>
         <script>
-            document.getElementById('Huyen').addEventListener('change', function () {
-                var selectedOption = this.options[this.selectedIndex];
-                var maH = selectedOption.value;
-                var tenHuyen = selectedOption.getAttribute('data-ten');
-
-                document.getElementById('selectedMaH').value = maH;
-                document.getElementById('selectedTenTinh').value = tenHuyen;
+            // Hàm mở modal xác nhận xóa và đặt giá trị cho input xóa
+            var deleteModalHuyen = document.getElementById('deleteModalHuyen');
+            deleteModalHuyen.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+                var deleteInput = document.getElementById('deleteIdHuyen');
+                var deleteType = document.getElementById('deleteTypeHuyen');
+                deleteInput.value = id;
+                deleteType.value = 'Huyen';
             });
         </script>
+        <script>
+            // Hàm mở modal xác nhận xóa và đặt giá trị cho input xóa
+            var deleteModalXa = document.getElementById('deleteModalXa');
+            deleteModalXa.addEventListener('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+                var deleteInput = document.getElementById('deleteIdXa');
+                var deleteType = document.getElementById('deleteTypeXa');
+                deleteInput.value = id;
+                deleteType.value = 'Xa';
+            });
+        </script>
+
+
 </body>
 </html>
